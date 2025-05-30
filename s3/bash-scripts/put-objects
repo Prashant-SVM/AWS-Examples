@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Directory to create files in (optional, use current directory)
-output_dir="/tmp/s3-bacsh-scripts"
+output_dir="/tmp/s3-bash-scripts"
 
 # Create directory if it doesn't exist
 mkdir -p "$output_dir"
@@ -19,3 +19,5 @@ do
 done
 
 echo "10 random files created in: $output_dir"
+
+tree $output_dir
