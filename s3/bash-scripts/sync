@@ -1,2 +1,48 @@
 #!/usr/bin/env bash
-echo "== sync 
+echo "== sync"
+
+set -e
+
+#check for bucket name.
+if [ -z "$1" ]; then
+    echo "there needs to be a bucket name e.g. ./bucket my-bucket-name."
+    exit 1
+fi
+
+
+
+# #check for FILENAMEN prefix.
+# if [ -z "$2" ]; then
+#     echo "there needs to be a bucket name e.g. ./bucket my-bucet-name."
+#     exit 1
+# fi
+
+# BUCKET_NAME = $1
+
+# FILE_NAME = $2
+
+
+
+# Directory to create files in (optional, use current directory)
+output_dir="/tmp/s3-bash-scripts"
+
+# Create directory if it doesn't exist
+mkdir -p "$output_dir"
+
+# Loop to generate 10 files
+for i in {1..10}
+do
+    # Generate a random filename
+    filename=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 8 | head -n 1)
+
+    # Generate random content (100 bytes) and save to file
+    head -c 100 /dev/urandom | base64 > "$output_dir/$filename.txt"
+
+    echo "Created file: $filename.txt"
+done
+
+echo "10 random files created in: $output_dir"
+
+# tree $output_dir
+
+aws s3 sync $output_dir s3://$1
