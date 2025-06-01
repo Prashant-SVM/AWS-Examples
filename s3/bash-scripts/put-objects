@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+echo "==put object"
+
+#check for bucket name.
+if [ -z "$1" ]; then
+    echo "there needs to be a bucket name e.g. ./bucket my-bucket-name."
+    exit 1
+fi
+
+#local file path and s3 object key
+local_file="/tmp/newfile.txt"
+s3_key="newfile.txt"
+
+aws s3api put-object \
+ --bucket $1 \
+ --key "$s3_key" \
+ --body "$local_file"
+
